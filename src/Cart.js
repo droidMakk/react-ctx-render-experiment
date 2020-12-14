@@ -31,8 +31,6 @@ export default () => {
     dispatch({ type: types.RESET_CART })
   }
 
-  console.log('cart', state)
-
   return(
     <Row justify="center" >
       <Col span={24} >

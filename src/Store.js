@@ -29,16 +29,17 @@ const initialState = {
 };
 
 const reducer = (state, { type, payload }) => {
+  let cart;
   switch (type) {
     case types.ADD_TO_CART:
-      state.cart.push(payload);
-      return state;
+      cart = state.cart;
+      cart.push(payload);
+      return { ...state, cart };
     case types.RESET_CART:
-      state.cart = [];
-      return state;
+      return { ...state, cart: [] };
     case types.REMOVE_ITEM:
-      state.cart = state.cart.filter(x => x.id !== payload)
-      return state;
+      cart = state.cart.filter(x => x.id !== payload)
+      return { ...state, cart };
     case types.UPDATE_PROFILE:
       state.profile = payload;
       return state;
