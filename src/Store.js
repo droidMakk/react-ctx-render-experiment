@@ -1,26 +1,41 @@
 import React from "react";
 
 const handlers = {};
-const actions = {
+export const types = {
   ADD_TO_CART: "add-to-cart",
-  RESET_CART: "reset-cart"
+  RESET_CART: "reset-cart",
+  UPDATE_PROFILE: "update-profile",
 };
 const initialState = {
   profile: {
-    name: "Mikasa Ackerman"
+    name: "Mikasa Ackerman",
+    status: "This world is cruel. It is also very beautiful"
   },
-  cart: []
+  cart: [
+    {
+      name: 'Hamam',
+      id: 22,
+      price: 200,
+      quantity: 5
+    },
+    {
+      name: 'Vicks',
+      id: 12,
+      price: 120,
+      quantity: 20
+    },
+  ]
 };
 
-const reducer = (state, { action, payload }) => {
-  switch (action) {
-    case actions.ADD_TO_CART:
-      state.cart.push();
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case types.ADD_TO_CART:
+      state.cart.push(payload);
       return state;
-    case actions.RESET_CART:
+    case types.RESET_CART:
       state.cart = [];
       return state;
-    case actions.UPDATE_PROFILE:
+    case types.UPDATE_PROFILE:
       state.profile = payload;
       return state;
     default:
@@ -31,6 +46,6 @@ const reducer = (state, { action, payload }) => {
 export const Store = React.createContext({ handlers, state: initialState });
 
 export const StoreProvider = (props) => {
-  const [state, setState] = React.useReducer(reducer, initialState);
-  return <Store.Provider value={{ state }}>{props.children}</Store.Provider>;
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  return <Store.Provider value={{ state, dispatch }}>{props.children}</Store.Provider>;
 };

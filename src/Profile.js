@@ -2,19 +2,29 @@ import React from "react";
 import { Row, Col, Image, Typography, Button, Input } from "antd";
 import { EditOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
+import { Store, types } from './Store';
+
 export default () => {
   const [edit, setEdit] = React.useState(false);
+  const { state, dispatch } = React.useContext(Store)
   const profileField = React.useRef(null);
   const statusField = React.useRef(null);
 
   React.useEffect(() => {
     if (edit) {
-      console.log("profile field ---", profileField.current);
-      profileField.current.input.value = "Mikasa Ackerman";
-      statusField.current.input.value =
-        "This world is cruel. It is also very beautiful";
+      profileField.current.value = state.profile.name;
+      statusField.current.value = state.profile.status;
     }
   }, [edit]);
+
+  const handleSubmit = () => {
+    const payload = {
+      name: profileField.current.value,
+      status: statusField.current.value
+    };
+    dispatch({ type: types.UPDATE_PROFILE, payload })
+    setEdit(false)
+  }
 
   return (
     <>
@@ -23,20 +33,18 @@ export default () => {
           <Image src="https://i.pinimg.com/originals/9c/fd/82/9cfd82435cd64fad07e74cdeeb434a55.png" />
         </Col>
         <Col span={14}>
-          <Typography.Title>Mikasa Ackerman</Typography.Title>
-          <Typography.Paragraph>
-            This world is cruel. It is also very beautiful
-          </Typography.Paragraph>
+          <Typography.Title>{state.profile.name}</Typography.Title>
+          <Typography.Paragraph>{state.profile.status}</Typography.Paragraph>
           {edit && (
             <Row justify="space-between">
               <Col span={24} style={{ marginBottom: 15 }}>
-                <Input placeholder="YOUR NAME" ref={profileField} />
+                <input placeholder="YOUR NAME" ref={profileField} />
               </Col>
               <Col span={24} style={{ marginBottom: 15 }}>
-                <Input placeholder="YOUR STATUS" ref={statusField} />
+                <input placeholder="YOUR STATUS" ref={statusField} />
               </Col>
               <Col span={24}>
-                <Button type="primary">UPDATE</Button>
+                <Button type="primary" onClick={handleSubmit} >UPDATE</Button>
               </Col>
             </Row>
           )}
