@@ -4,6 +4,7 @@ const handlers = {};
 export const types = {
   ADD_TO_CART: "add-to-cart",
   RESET_CART: "reset-cart",
+  REMOVE_ITEM: "remove-item",
   UPDATE_PROFILE: "update-profile",
 };
 const initialState = {
@@ -34,6 +35,9 @@ const reducer = (state, { type, payload }) => {
       return state;
     case types.RESET_CART:
       state.cart = [];
+      return state;
+    case types.REMOVE_ITEM:
+      state.cart = state.cart.filter(x => x.id !== payload)
       return state;
     case types.UPDATE_PROFILE:
       state.profile = payload;

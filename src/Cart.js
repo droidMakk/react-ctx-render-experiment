@@ -3,17 +3,26 @@ import { Row, Col, List, Avatar, Button } from 'antd';
 
 import { Store, types } from './Store';
 
-const CartCard = (props) => (
-  <Col span={24} >
-    <List.Item>
-        <List.Item.Meta
-          avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-          title={props.name}
-          description={`${props.price} - ${props.id}`}
-        />
-      </List.Item>
-  </Col>
-)
+const CartCard = (props) => {
+  const { dispatch } = React.useContext(Store)
+
+  const removeItem = () => {
+    dispatch({ type: types.REMOVE_ITEM, payload: props.id })
+  }
+
+  return(
+    <Col span={24} >
+      <List.Item>
+          <List.Item.Meta
+            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            title={props.name}
+            description={`${props.price} - ${props.id}`}
+          />
+          <Button onClick={removeItem} >REMOVE</Button>
+        </List.Item>
+    </Col>
+  )
+}
 
 export default () => {
   const { state, dispatch } = React.useContext(Store)

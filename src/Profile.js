@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Image, Typography, Button, Input } from "antd";
+import { Row, Col, Image, Typography, Button } from "antd";
 import { EditOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 import { Store, types } from './Store';
